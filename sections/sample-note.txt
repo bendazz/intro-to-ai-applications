@@ -1,0 +1,17 @@
+A Short Note About Lighthouses
+
+A lighthouse has one job: to be seen. It does not move, it does not
+speak, and it does not know who is out on the water. It simply stands
+in a fixed spot and sends the same steady signal into the dark, night
+after night, so that anyone who happens to be looking can find their way.
+
+The oldest lighthouses burned wood or coal. Later ones used oil lamps
+with curved mirrors behind them to throw the light farther. The real
+leap came with a special lens, ground in rings, that could gather a
+small flame's glow and bend it into a single bright beam.
+
+What makes a lighthouse useful is not how clever it is, but how
+reliable it is. A light that shines only sometimes is worse than no
+light at all, because people learn to trust it and then it lets them
+down. The same is true of many tools we build: steady and dependable
+beats flashy and unpredictable.

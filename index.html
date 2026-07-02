@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Intro to AI Applications</title>
+
+  <!-- KaTeX (math typesetting) from CDN -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"
+        crossorigin="anonymous" />
+  <script defer
+          src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"
+          crossorigin="anonymous"></script>
+  <script defer
+          src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+          crossorigin="anonymous"></script>
+
+  <!-- Course styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- Mobile menu button + backdrop -->
+  <button id="menu-toggle" aria-label="Open table of contents">☰</button>
+  <div id="backdrop"></div>
+
+  <!-- Sidebar / table of contents -->
+  <nav id="sidebar">
+    <div class="brand">
+      <div class="brand-title">Intro to AI Applications</div>
+      <div class="brand-subtitle">An interactive, no-code course</div>
+    </div>
+    <div id="toc"></div>
+  </nav>
+
+  <!-- Main reading column -->
+  <div id="content-wrap">
+    <main id="content"></main>
+    <nav id="pager"></nav>
+    <footer id="page-footer">
+      Intro to AI Applications · An interactive course.
+    </footer>
+  </div>
+
+  <!-- Optional helpers, then sections, then the shell.
+       Load order matters: toolkit + manifest + each section register
+       onto window before app.js reads them. -->
+  <script src="toolkit.js"></script>
+  <script src="sections/manifest.js"></script>
+
+  <!-- Sections (add one <script> line per section) -->
+  <script src="sections/talking-to-ai.js"></script>
+  <script src="sections/install-langflow.js"></script>
+  <script src="sections/langflow-canvas-basics.js"></script>
+  <script src="sections/api-key-gemini.js"></script>
+  <script src="sections/api-key-anthropic.js"></script>
+  <script src="sections/add-a-model.js"></script>
+  <script src="sections/chatbot-memory.js"></script>
+  <script src="sections/prompt-engineering.js"></script>
+  <script src="sections/single-purpose-tools.js"></script>
+  <script src="sections/testing-your-app.js"></script>
+  <script src="sections/studio-project.js"></script>
+  <script src="sections/chat-with-document.js"></script>
+  <script src="sections/document-wrangling.js"></script>
+  <script src="sections/document-studio.js"></script>
+  <script src="sections/tokens-context-window.js"></script>
+  <script src="sections/cost.js"></script>
+  <script src="sections/cost-practice.js"></script>
+  <script src="sections/budget-studio.js"></script>
+  <script src="sections/rag-intuition.js"></script>
+  <script src="sections/embeddings-similarity.js"></script>
+  <script src="sections/chunking.js"></script>
+  <script src="sections/chunking-langflow.js"></script>
+  <script src="sections/rag-flow-retrieval.js"></script>
+  <script src="sections/rag-flow-generation.js"></script>
+  <script src="sections/retrieval-evaluation.js"></script>
+  <script src="sections/rag-studio.js"></script>
+  <script src="sections/agents-intro.js"></script>
+  <script src="sections/agent-tools.js"></script>
+  <script src="sections/agent-build.js"></script>
+  <script src="sections/agent-rag-tool.js"></script>
+  <script src="sections/agents-go-wrong.js"></script>
+  <script src="sections/agents-studio.js"></script>
+
+  <!-- The reading shell (must come last) -->
+  <script src="app.js"></script>
+</body>
+</html>
