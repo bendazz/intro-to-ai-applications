@@ -100,6 +100,16 @@ window.SECTIONS = [
     group: "Tokens & cost",
   },
   {
+    id: "budget-practice",
+    title: "Practice: matching a budget",
+    group: "Tokens & cost",
+  },
+  {
+    id: "budget-memory-practice",
+    title: "Practice: budgeting a bot that remembers",
+    group: "Tokens & cost",
+  },
+  {
     id: "budget-studio",
     title: "Studio project: build it to a budget",
     group: "Tokens & cost",
