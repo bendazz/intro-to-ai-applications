@@ -197,19 +197,48 @@ strong { font-weight: 650; }
    character counts line up, and clearly a thing being acted on
    rather than prose to read. */
 .doc {
-  font-family: var(--font-mono);
   font-size: .84rem;
-  line-height: 1.55;
-  white-space: pre-wrap;
-  word-break: break-word;
+  line-height: 1.6;
   margin: .8em 0;
-  padding: 12px 14px;
+  padding: 8px 0;
   color: var(--ink);
   background: var(--bg);
   border: 1px solid var(--line);
   border-left: 3px solid var(--ink-faint);
   border-radius: 6px;
   overflow-x: auto;
+}
+.doc-line {
+  display: flex;
+  align-items: baseline;
+  gap: 1.4rem;
+  padding: 0 14px;
+}
+.doc-line .t {
+  flex: 1;
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 1.6em;
+}
+.doc-line .n {
+  flex: none;
+  min-width: 3.4em;
+  text-align: right;
+  font-family: var(--font-mono);
+  font-size: .74rem;
+  color: var(--ink-faint);
+  user-select: none;
+}
+.doc-head {
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+  padding-bottom: 3px;
+}
+.doc-head .n {
+  font-size: .64rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
 }
 .solution-toggle {
   margin-top: .7em;

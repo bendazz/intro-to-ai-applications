@@ -30,9 +30,36 @@
        empties => overlap ZERO.
      - Joined chunks are .strip()ed.
 
-   GOTCHA: no "$" glyph anywhere in rendered HTML (KaTeX pairing).
-   Money written in words. Inequalities written as &gt; / &lt;.
+   Sample documents are rendered by the local `chunkDoc` helper, which
+   prints each line's character count in a right-hand gutter (instructor
+   asked for this so students spend the time on the algorithm, not on
+   counting). Counts are COMPUTED from the text, so they cannot drift;
+   they exclude the separator, which keeps the +1 in the fit test as
+   something the student still has to supply. A blank line gets an
+   EMPTY gutter, not a 0 — under a \n\n separator the blank line is the
+   separator itself, and a 0 would imply a third, empty atom.
+
+   GOTCHA: no "$" glyph anywhere in RENDERED HTML (KaTeX pairing).
+   Money written in words. Inequalities written as &gt; / &lt;. This
+   file does carry two literal "$" outside the html template — one in
+   this comment and one in the helper's /\n$/ regex. Both are invisible
+   to KaTeX; a checker that does not skip comments and JS will flag
+   them as false positives.
    ============================================================ */
+
+/* Renders a sample document with a live character count beside every
+   line, so students spend their effort on the algorithm rather than on
+   counting. Counts are COMPUTED here — they can never drift out of step
+   with the text, and they exclude the separator, which is exactly the
+   +1 the fit test makes students remember for themselves. */
+const chunkDoc = (raw) => {
+  const lines = raw.replace(/^\n/, "").replace(/\n$/, "").split("\n");
+  const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return `<div class="doc">
+    <div class="doc-line doc-head"><span class="t"></span><span class="n">chars</span></div>
+    ${lines.map((l) => `<div class="doc-line"><span class="t">${esc(l)}</span><span class="n">${l.length || ""}</span></div>`).join("")}
+  </div>`;
+};
 
 window.SectionContent["chunking-practice"] = {
   title: "Practice: chunking by hand",
@@ -83,9 +110,9 @@ window.SectionContent["chunking-practice"] = {
       `<strong>Just the cut.</strong> Separator <code>\\n</code>, Chunk Size
        <strong>1000</strong>, Chunk Overlap <strong>0</strong>. The document is three
        lines:
-       <pre class="doc">Chapter One
+       ${chunkDoc(`Chapter One
 It was cold.
-The dog barked.</pre>
+The dog barked.`)}
        How many atoms, how long is each, and how many chunks come out?`,
       `<p><strong>Three atoms:</strong> "Chapter One" (11), "It was cold." (12),
        "The dog barked." (15).</p>
@@ -100,10 +127,10 @@ The dog barked.</pre>
     ${Toolkit.problem(
       `<strong>Where does the +1 come from?</strong> Separator <code>\\n</code>,
        Chunk Size <strong>40</strong>, Chunk Overlap <strong>0</strong>.
-       <pre class="doc">Red team the bot.
+       ${chunkDoc(`Red team the bot.
 Try the trickier cases.
 Log every refusal.
-Swap with a partner.</pre>
+Swap with a partner.`)}
        Give the chunks and their lengths.`,
       `<p>Atoms: 17, 23, 18, 20.</p>
        <p>Buffer 17. Does atom 2 fit? 17 + 23 = 40, which is <em>not</em> over 40 — so
@@ -127,7 +154,7 @@ Swap with a partner.</pre>
     ${Toolkit.problem(
       `<strong>The club handbook.</strong> Separator <code>\\n</code>, Chunk Size
        <strong>100</strong>, Chunk Overlap <strong>30</strong>.
-       <pre class="doc">The Robotics Club meets
+       ${chunkDoc(`The Robotics Club meets
 every Tuesday at seven.
 Dues are twenty dollars
 per semester, payable
@@ -135,7 +162,7 @@ to the treasurer.
 Members must sign the
 safety waiver before
 using any power tool.
-The lab closes at ten.</pre>
+The lab closes at ten.`)}
        How many chunks, and how long is each?`,
       `<p>Atoms, in order: 23, 23, 23, 21, 17, 21, 20, 21, 22.</p>
        <p>Buffer: 23 → 47 → 71 → 93 (atoms 1–4).</p>
@@ -158,12 +185,12 @@ The lab closes at ten.</pre>
     ${Toolkit.problem(
       `<strong>Count the overlap.</strong> Separator <code>\\n</code>, Chunk Size
        <strong>60</strong>, Chunk Overlap <strong>30</strong>.
-       <pre class="doc">Bring goggles.
+       ${chunkDoc(`Bring goggles.
 Bring gloves.
 Bring a notebook.
 Bring your badge.
 Bring a pen.
-Bring water.</pre>
+Bring water.`)}
        Give the chunks — and say how many <em>lines</em> each one shares with the
        previous chunk.`,
       `<p>Atoms: 14, 13, 17, 17, 12, 12.</p>
@@ -188,9 +215,9 @@ Bring water.</pre>
     ${Toolkit.problem(
       `<strong>Where did my overlap go?</strong> Separator <code>\\n</code>, Chunk
        Size <strong>100</strong>, Chunk Overlap <strong>30</strong>.
-       <pre class="doc">The lab closes at ten on weeknights.
+       ${chunkDoc(`The lab closes at ten on weeknights.
 Members sign the waiver each fall.
-Dues are twenty dollars per term.</pre>
+Dues are twenty dollars per term.`)}
        Give the chunks. How much overlap do you get?`,
       `<p>Atoms: 36, 34, 33.</p>
        <p>Buffer: 36 → 71 (atoms 1–2). Atom 3 would make 71 + 33 + 1 = 105, over 100.
@@ -212,11 +239,13 @@ Dues are twenty dollars per term.</pre>
       `<strong>An atom that will not fit.</strong> Separator <code>\\n\\n</code>,
        Chunk Size <strong>60</strong>, Chunk Overlap <strong>10</strong>. Two
        paragraphs, with a blank line between them:
-       <pre class="doc">Meetings are Tuesday.
+       ${chunkDoc(`Meetings are Tuesday.
 
-Every member must sign the safety waiver before using any power tool in the lab, without exception.</pre>
+Every member must sign the safety waiver before using any power tool in the lab, without exception.`)}
        Give the chunks and their lengths.`,
-      `<p>Atoms: 21 and <strong>99</strong>.</p>
+      `<p><strong>Two</strong> atoms: 21 and <strong>99</strong>. The blank line is not a
+       third, empty atom — those two newlines <em>are</em> the separator, and they are
+       consumed by the cut. That is why it carries no character count above.</p>
        <p>Buffer: 21. Atom 2 would make 21 + 99 + 2 = 122, over 60.
        <strong>Emit chunk 1 = 21</strong>. Pop while over 10: 21 → drop atom 1 → 0,
        empty.</p>
@@ -236,11 +265,11 @@ Every member must sign the safety waiver before using any power tool in the lab,
       `<strong>One document, two separators.</strong> Chunk Size <strong>70</strong>,
        Chunk Overlap <strong>50</strong>, for both runs. The document (a blank line
        between the two pairs):
-       <pre class="doc">Dues are twenty dollars.
+       ${chunkDoc(`Dues are twenty dollars.
 Pay the treasurer.
 
 The lab closes at ten.
-Sign the waiver first.</pre>
+Sign the waiver first.`)}
        Run it once with Separator <code>\\n\\n</code> and once with <code>\\n</code>.
        What comes out each time?`,
       `<p><strong>With <code>\\n\\n</code>:</strong> two atoms, 43 and 45 (each still
