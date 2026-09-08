@@ -135,6 +135,11 @@ window.SECTIONS = [
     group: "Retrieval (RAG)",
   },
   {
+    id: "chunking-practice",
+    title: "Practice: chunking by hand",
+    group: "Retrieval (RAG)",
+  },
+  {
     id: "rag-flow-retrieval",
     title: "Building RAG, part 1: store & search",
     group: "Retrieval (RAG)",
