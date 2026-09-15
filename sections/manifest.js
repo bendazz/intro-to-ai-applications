@@ -155,6 +155,11 @@ window.SECTIONS = [
     group: "Retrieval (RAG)",
   },
   {
+    id: "retrieval-practice",
+    title: "Practice: precision and recall",
+    group: "Retrieval (RAG)",
+  },
+  {
     id: "rag-studio",
     title: "Studio: build & tune a RAG app",
     group: "Retrieval (RAG)",
