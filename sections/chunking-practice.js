@@ -25,9 +25,12 @@
        subdivided later.
      - Phase 2 fit test INCLUDES one separator's length once the
        buffer is non-empty: total + len + sep_len > chunk_size.
-     - On emit, pop from the FRONT while total > chunk_overlap.
+     - On emit, pop from the FRONT while total > chunk_overlap,
+       OR while the incoming atom still would not fit beside what
+       is left (total + len + sep_len > chunk_size, total > 0).
        If the last atom alone exceeds chunk_overlap the buffer
-       empties => overlap ZERO.
+       empties => overlap ZERO. Problem 7's \n\n run is the only
+       problem where the second condition fires.
      - Joined chunks are .strip()ed.
 
    Sample documents are rendered by the local `chunkDoc` helper, which
@@ -94,8 +97,9 @@ window.SectionContent["chunking-practice"] = {
            separator.</li>
            <li><strong>Does not fit:</strong> emit the buffer as a chunk. Then
            <strong>pop atoms off the front while the buffer is bigger than Chunk
-           Overlap.</strong> Whatever survives is carried into the next chunk. Now add
-           the atom.</li>
+           Overlap</strong> — <strong>or while the atom still would not fit</strong>
+           beside what is left. Whatever survives is carried into the next chunk. Now
+           add the atom.</li>
          </ul></li>
          <li>At the end of the text, emit whatever is still in the buffer.</li>
        </ol>
@@ -288,7 +292,7 @@ Sign the waiver first.`)}
        <p>Same document, same Chunk Size, same Chunk Overlap — and one run has real
        overlap while the other has none. The <strong>Separator decided it</strong>,
        by deciding how big the atoms were.</p>
-       <p>The second run also shows the pop loop's other job: it keeps popping while
+       <p>The first run also shows the pop loop's other job: it keeps popping while
        the incoming atom still does not fit, which is why an oversized atom always
        starts a chunk of its own.</p>`
     )}
