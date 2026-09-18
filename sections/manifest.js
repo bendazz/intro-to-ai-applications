@@ -140,6 +140,11 @@ window.SECTIONS = [
     group: "Retrieval (RAG)",
   },
   {
+    id: "chunking-edge-practice",
+    title: "Practice: chunking edge cases",
+    group: "Retrieval (RAG)",
+  },
+  {
     id: "rag-flow-retrieval",
     title: "Building RAG, part 1: store & search",
     group: "Retrieval (RAG)",
