@@ -293,8 +293,9 @@ Sign the waiver first.`)}
        overlap while the other has none. The <strong>Separator decided it</strong>,
        by deciding how big the atoms were.</p>
        <p>The first run also shows the pop loop's other job: it keeps popping while
-       the incoming atom still does not fit, which is why an oversized atom always
-       starts a chunk of its own.</p>`
+       the incoming atom still does not fit. Atom 1 was small enough to carry as
+       overlap, but atom 2 had no room beside it, so atom 1 was dropped anyway.
+       When the two collide, Chunk Size wins over Chunk Overlap.</p>`
     )}
 
     ${Toolkit.problem(
